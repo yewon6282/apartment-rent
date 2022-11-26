@@ -1,11 +1,13 @@
 import axios from "axios";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import Loading from "./components/Atom/Loading";
-import Header from "./components/Template/Header";
-import Main from "./components/Template/Main";
 import "./css/initialization.css";
+import Loading from "./components/Atom/Loading";
+import MainPage from "./components/Pages/MainPage";
+import LoginPage from "./components/Pages/LoginPage";
+import MyPagePage from "./components/Pages/MyPagePage";
 
 const APARTURL = "/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptRent";
 // const CODEURL = "https://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList";
@@ -15,13 +17,13 @@ function App() {
   const [apartData, setApartData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  
+
   const apartmentData = async () => {
     try {
       setError(null);
       setApartData(null);
       setLoading(true);
-      
+
       const response = await axios.get(APARTURL, {
         params: {
           serviceKey: process.env.REACT_APP_APARTMENT_API_KEY,
@@ -29,21 +31,21 @@ function App() {
           DEAL_YMD: filteringData.contractDate,
         },
       });
-      
+
       setApartData(response.data);
     } catch (e) {
       setError(e);
     }
     setLoading(false);
   };
-  console.log(apartData);
-  
+  // console.log(apartData);
+
   // const [codeData, setCodeData] = useState(null);
 
   // const regionCodeData = async () => {
   //   try {
   //     setCodeData(null);
-      
+
   //     const response = await axios.get(CODEURL, {
   //       params: {
   //         serviceKey: process.env.REACT_APP_CODE_API_KEY,
@@ -58,7 +60,6 @@ function App() {
   //   } catch (e) {}
   // };
 
-
   useEffect(() => {
     apartmentData();
     // regionCodeData();
@@ -70,8 +71,13 @@ function App() {
 
   return (
     <AppDiv>
-      <Header />
-      <Main apartData={apartData} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage apartData={apartData} />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/mypage" element={<MyPagePage apartData={apartData} />} />
+        </Routes>
+      </BrowserRouter>
     </AppDiv>
   );
 }

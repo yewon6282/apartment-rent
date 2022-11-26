@@ -3,17 +3,39 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { cancelBookmark, doBookmark } from "../../modules/bookmarking";
-const MainList = (props) => {
-  const bookmarkList = useSelector((state) => state.bookmarking);
-  console.log(bookmarkList);
-  const dispatch = useDispatch();
+import { useNavigate } from "react-router-dom";
 
-  const doBookmarking = (month, day, apartment) => {
-    dispatch(doBookmark(month, day, apartment));
+const MainList = (props) => {
+  const isLogined = useSelector((state) => state.logging);
+  const bookmarkList = useSelector((state) => state.bookmarking);
+  const eachIdBookmarkList = bookmarkList.bookmarkInfo.filter((el) => el[0] === isLogined[0]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const findIndex = (month, day, apartment, floor) => {
+    for (let i = 0; i < eachIdBookmarkList.length; i++) {
+      if (eachIdBookmarkList[i][1] === month) {
+        if (eachIdBookmarkList[i][2] === day) {
+          if (eachIdBookmarkList[i][3] === apartment) {
+            if (eachIdBookmarkList[i][4] === floor) {
+              return true;
+            }
+          }
+        }
+      }
+    }
   };
-  
-  const cancelBookmarking = (month, day, apartment) => {
-    dispatch(cancelBookmark(month, day, apartment));
+
+  const doBookmarking = (id, month, day, apartment, floor) => {
+    dispatch(doBookmark(id, month, day, apartment, floor));
+  };
+
+  const cancelBookmarking = (id, month, day, apartment, floor) => {
+    dispatch(cancelBookmark(id, month, day, apartment, floor));
+  };
+
+  const goToLogin = () => {
+    navigate("/login");
   };
 
   return (
@@ -32,14 +54,16 @@ const MainList = (props) => {
                 <p>{item.지번}</p>
                 <p>{item.지역코드}</p>
                 <p>{item.보증금액}</p>
-                <p>{item.월}</p>
+                <p>{item.월세금액}</p>
                 <p>
                   {item.전용면적}({parseInt(item.전용면적 * 0.3025)}평)
                 </p>
                 <p>{item.층}</p>
               </div>
               <div className="data-bookmark">
-                {bookmarkList.bookmarkId.includes(key)? <FaBookmark className="bookmark-icon" onClick={() => cancelBookmarking(item.월,item.일,item.아파트)}/> : <FaRegBookmark className="bookmark-icon" onClick={() => doBookmarking(item.월,item.일,item.아파트)}/>}
+                {isLogined[0] && findIndex(item.월, item.일, item.아파트, item.층) 
+                  ? <FaBookmark className="bookmark-icon" onClick={() => cancelBookmarking(isLogined[0], item.월, item.일, item.아파트, item.층)} /> 
+                  : <FaRegBookmark className="bookmark-icon" onClick={isLogined[0] ? () => doBookmarking(isLogined[0], item.월, item.일, item.아파트, item.층) : goToLogin} />}
               </div>
             </li>
           ))}

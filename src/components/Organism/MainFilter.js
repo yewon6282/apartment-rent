@@ -11,17 +11,14 @@ const MainFilter = (props) => {
   const [searchInputValue, setSearchInputValue] = useState();
 
   const InputValueChangeHandler = (e) => {
-    console.log(e.target.value);
     setSearchInputValue(e.target.value);
   }
   
-  const searching = (e) => {
-    console.log(e.target.value);
+  const searchValueChangeHandler = (e) => {
     setSearchFilterValue(e.target.value);
   };
 
   const doFiltering = () => {
-    console.log(searchFilterValue, searchInputValue);
     if (searchFilterValue === "areaCode") {
       dispatch(rigionCodeFiltering(searchInputValue));
     } else if (searchFilterValue === "contractYearMonth") {
@@ -36,7 +33,7 @@ const MainFilter = (props) => {
   return (
     <MainFilterDiv>
       <div className="search-input">
-        <select defaultValue="areaCode" className="search-filter" onChange={searching}>
+        <select defaultValue="areaCode" className="search-filter" onChange={searchValueChangeHandler}>
           <option value="areaCode">지역코드</option>
           <option value="contractYearMonth">계약년월</option>
         </select>
@@ -50,6 +47,7 @@ const MainFilter = (props) => {
           </option>
           <option value="constructionYear">최근 건축년도 순</option>
           <option value="deposit">낮은 보증금 순</option>
+          <option value="monthly">낮은 월세 순</option>
           <option value="area">넓은 면적 순</option>
           <option value="floor">높은 층 순</option>
         </select>
