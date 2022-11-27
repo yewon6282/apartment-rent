@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import Profile from "../../json/Profile.json";
 import { doLogin } from "../../modules/logging";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const Login = () => {
   const dispatch = useDispatch();

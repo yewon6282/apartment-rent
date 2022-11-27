@@ -40,7 +40,7 @@ const MainList = (props) => {
 
   return (
     <MainListDiv>
-      {props.apartData.response.body.totalCount !== 0 ? (
+      {props.apartData.length !== 0 ? (
         <ul>
           {props.newDataList.map((item, key) => (
             <li className="apart-list" key={key}>
@@ -114,7 +114,7 @@ const MainListDiv = styled.div`
     }
   }
 
-  h1 {
+  & h1 {
     text-align: center;
     margin: 15rem 0;
     color: #d1d1d1;

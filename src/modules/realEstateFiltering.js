@@ -1,20 +1,20 @@
 const REGIONCODEFILTERING = "REGIONCODEFILTERING";
 const CONTRACTDATEFILTERING = "CONTRACTDATEFILTERING";
 
-export const rigionCodeFiltering = (num) => ({ type: REGIONCODEFILTERING, num });
+export const regionCodeFiltering = (num) => ({ type: REGIONCODEFILTERING, num });
 export const contractDateFiltering = (num) => ({ type: CONTRACTDATEFILTERING, num });
 
 const initialState = { regionCode: "11110", contractDate: "201512" };
 
-function filtering(state = initialState, action) {
+function realEstateFiltering(state = initialState, action) {
   switch (action.type) {
     case REGIONCODEFILTERING:
-      return { regionCode: action.num, contractDate: initialState.contractDate };
+      return { regionCode: action.num, contractDate: state.contractDate };
     case CONTRACTDATEFILTERING:
-      return { regionCode: initialState.regionCode, contractDate: action.num };
+      return { regionCode: state.regionCode, contractDate: action.num };
     default:
       return (state = initialState);
   }
 }
 
-export default filtering;
+export default realEstateFiltering;

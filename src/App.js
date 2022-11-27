@@ -1,72 +1,75 @@
 import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import "./css/initialization.css";
-import Loading from "./components/Atom/Loading";
 import MainPage from "./components/Pages/MainPage";
 import LoginPage from "./components/Pages/LoginPage";
 import MyPagePage from "./components/Pages/MyPagePage";
+import { regionCodeFiltering } from "./modules/realEstateFiltering";
+import Profile from "./json/Profile.json";
+import { regionNameFiltering } from "./modules/regionFiltering";
 
 const APARTURL = "/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptRent";
-// const CODEURL = "https://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList";
+const CODEURL = "https://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList";
 
 function App() {
-  const filteringData = useSelector((state) => state.filtering);
+  const dispatch = useDispatch();
+  const isLogined = useSelector((state) => state.logging);
+  const realEstateData = useSelector((state) => state.realEstateFiltering);
+  const regionData = useSelector((state) => state.regionFiltering);
   const [apartData, setApartData] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [codeData, setCodeData] = useState(null);
 
+  useEffect(() => {
+    if (isLogined.length !== 0) {
+      const preferCode = Profile.Profiles.find((el) => el.id === isLogined[0]);
+      dispatch(regionNameFiltering(preferCode.regionName));
+    }
+  }, [dispatch, isLogined]);
+
+  const regionCodeData = async () => {
+    try {
+      setCodeData(null);
+
+      const response = await axios.get(CODEURL, {
+        params: {
+          serviceKey: process.env.REACT_APP_CODE_API_KEY,
+          type: "json",
+          pageNo: 1,
+          numOfRows: 10,
+          locatadd_nm: regionData.regionName,
+        },
+      });
+
+      setCodeData(response.data.StanReginCd[1].row[0].region_cd);
+    } catch (e) {}
+  };
+  
   const apartmentData = async () => {
     try {
-      setError(null);
       setApartData(null);
-      setLoading(true);
 
       const response = await axios.get(APARTURL, {
         params: {
           serviceKey: process.env.REACT_APP_APARTMENT_API_KEY,
-          LAWD_CD: filteringData.regionCode,
-          DEAL_YMD: filteringData.contractDate,
+          LAWD_CD: realEstateData.regionCode,
+          DEAL_YMD: realEstateData.contractDate,
         },
       });
 
-      setApartData(response.data);
+      setApartData(response.data.response.body.items.item);
     } catch (e) {
-      setError(e);
+      // alert(e);
     }
-    setLoading(false);
   };
-  // console.log(apartData);
-
-  // const [codeData, setCodeData] = useState(null);
-
-  // const regionCodeData = async () => {
-  //   try {
-  //     setCodeData(null);
-
-  //     const response = await axios.get(CODEURL, {
-  //       params: {
-  //         serviceKey: process.env.REACT_APP_CODE_API_KEY,
-  //         type : 'xml',
-  //         pageNo : 1,
-  //         numOfRows : 3,
-  //         locatadd_nm : '서울특별시 종로구'
-  //       },
-  //     });
-
-  //     setCodeData(response.data);
-  //   } catch (e) {}
-  // };
-
+  
   useEffect(() => {
     apartmentData();
-    // regionCodeData();
-  }, [filteringData]);
+    regionCodeData();
+  }, [realEstateData, regionData]);
 
-  if (loading && !apartData) return <Loading />;
-  if (error) return <div>Error...</div>;
   if (!apartData) return null;
 
   return (

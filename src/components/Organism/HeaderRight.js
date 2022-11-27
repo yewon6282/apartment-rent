@@ -1,16 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { doLogout } from "../../modules/logging";
 
 const HeaderRight = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLogined = useSelector((state) => state.logging);
 
   const logoutHandler = () => {
     dispatch(doLogout());
+    navigate("/");
   };
+  
   return (
     <HeaderRightDiv>
       {isLogined[0] ? (

@@ -10,41 +10,41 @@ const Main = (props) => {
 
   useEffect(() => {
     if (selectPriority === "constructionYear") {
-      let compareList = [...props.apartData.response.body.items.item];
+      let compareList = [...props.apartData];
       let comparing = (key) => (a, b) => {
         return a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0;
       };
       compareList.sort(comparing("건축년도"));
       setNewDataList(compareList);
     } else if (selectPriority === "deposit") {
-      let compareList = [...props.apartData.response.body.items.item];
+      let compareList = [...props.apartData];
       let comparing = (key) => (a, b) => {
         return a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0;
       };
       compareList.sort(comparing("보증금액"));
       setNewDataList(compareList);
     } else if (selectPriority === "monthly") {
-      let compareList = [...props.apartData.response.body.items.item];
+      let compareList = [...props.apartData];
       let comparing = (key) => (a, b) => {
         return a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0;
       };
       compareList.sort(comparing("월세금액"));
       setNewDataList(compareList);
     } else if (selectPriority === "area") {
-      let compareList = [...props.apartData.response.body.items.item];
+      let compareList = [...props.apartData];
       let comparing = (key) => (a, b) => {
         return a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0;
       };
       compareList.sort(comparing("전용면적"));
       setNewDataList(compareList);
     } else if (selectPriority === "floor") {
-      let compareList = [...props.apartData.response.body.items.item];
+      let compareList = [...props.apartData];
       let comparing = (key) => (a, b) => {
         return a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0;
       };
       compareList.sort(comparing("층"));
       setNewDataList(compareList);
-    } else setNewDataList([...props.apartData.response.body.items.item]);
+    } else setNewDataList([...props.apartData]);
   }, [selectPriority]);
 
   return (

@@ -30,9 +30,10 @@ const MyPageBottom = (props) => {
   return (
     <MyPageBottomDiv>
       <div className="my-prefer-list">
+        <h2>내가 북마크한 목록</h2>
         {eachIdBookmarkList.length !== 0 ? (
           <ul>
-            {props.apartData.response.body.items.item.map((item, key) => (
+            {props.apartData.map((item, key) => (
               <div key={key}>
                 {findIndex(item.월, item.일, item.아파트, item.층) && (
                   <li className="apart-list">
@@ -75,6 +76,12 @@ const MyPageBottomDiv = styled.div`
     width: 68.25rem;
     margin: 0 auto;
     padding: 1rem;
+
+    & h2 {
+      padding-top: 1rem;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
 
     ul {
       width: inherit;

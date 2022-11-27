@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { rigionCodeFiltering, contractDateFiltering } from "../../modules/filtering";
+import { regionCodeFiltering, contractDateFiltering } from "../../modules/realEstateFiltering";
 import { HiOutlineSearch } from "react-icons/hi";
 import { BsChevronDown } from "react-icons/bs";
 
@@ -20,7 +20,7 @@ const MainFilter = (props) => {
 
   const doFiltering = () => {
     if (searchFilterValue === "areaCode") {
-      dispatch(rigionCodeFiltering(searchInputValue));
+      dispatch(regionCodeFiltering(searchInputValue));
     } else if (searchFilterValue === "contractYearMonth") {
       dispatch(contractDateFiltering(searchInputValue));
     }
