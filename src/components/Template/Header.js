@@ -20,13 +20,14 @@ const HeaderDiv = styled.div`
   top: 0;
   left: 0;
   width: inherit;
-  height: 3rem;
-  background-color: #fff;
+  height: 3.5rem;
+  background-color: rgba(255, 255, 255, 0.7);
   box-shadow: 0 1px 0 0 rgb(0 0 0 / 10%);
 
   .header {
-    width: 68.25rem;
-    margin: 0 auto;
+    width: 101rem;
+    height: inherit;
+    margin: auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

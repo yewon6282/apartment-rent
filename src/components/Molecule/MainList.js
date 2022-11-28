@@ -40,7 +40,7 @@ const MainList = (props) => {
 
   return (
     <MainListDiv>
-      {props.apartData.length !== 0 ? (
+      {props.apartData !== null ? (
         <ul>
           {props.newDataList.map((item, key) => (
             <li className="apart-list" key={key}>
@@ -76,7 +76,7 @@ const MainList = (props) => {
 };
 
 const MainListDiv = styled.div`
-  width: 68.25rem;
+  width: inherit;
   margin: 0 auto;
 
   ul {
@@ -116,9 +116,9 @@ const MainListDiv = styled.div`
 
   & h1 {
     text-align: center;
-    margin: 15rem 0;
+    margin: 15rem auto;
     color: #d1d1d1;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 400;
   }
 `;

@@ -7,7 +7,8 @@ const MyPage = (props) => {
   return (
     <MyPageDiv>
       <MyPageTop />
-      <MyPageBottom apartData={props.apartData} />
+      <MyPageBottom />
+      {/* <MyPageBottom apartData={props.apartData} /> */}
     </MyPageDiv>
   );
 };

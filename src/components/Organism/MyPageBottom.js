@@ -73,7 +73,7 @@ const MyPageBottomDiv = styled.div`
   width: inherit;
 
   .my-prefer-list {
-    width: 68.25rem;
+    width: 101rem;
     margin: 0 auto;
     padding: 1rem;
 

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { regionCodeFiltering, contractDateFiltering } from "../../modules/realEstateFiltering";
 import { HiOutlineSearch } from "react-icons/hi";
-import { BsChevronDown } from "react-icons/bs";
+import { BiChevronDown } from "react-icons/bi";
 
 const MainFilter = (props) => {
   const dispatch = useDispatch();
@@ -12,8 +12,8 @@ const MainFilter = (props) => {
 
   const InputValueChangeHandler = (e) => {
     setSearchInputValue(e.target.value);
-  }
-  
+  };
+
   const searchValueChangeHandler = (e) => {
     setSearchFilterValue(e.target.value);
   };
@@ -24,7 +24,7 @@ const MainFilter = (props) => {
     } else if (searchFilterValue === "contractYearMonth") {
       dispatch(contractDateFiltering(searchInputValue));
     }
-  }
+  };
 
   const selecting = (e) => {
     props.setSelectPriority(e.target.value);
@@ -38,7 +38,7 @@ const MainFilter = (props) => {
           <option value="contractYearMonth">계약년월</option>
         </select>
         <input placeholder="검색어를 입력하세요" onChange={InputValueChangeHandler} />
-        <HiOutlineSearch className="search-icon" onClick={doFiltering}/>
+        <HiOutlineSearch className="search-icon" onClick={doFiltering} />
       </div>
       <div className="select-priority-wrap">
         <select defaultValue="default" className="select-priority" onChange={selecting}>
@@ -51,27 +51,26 @@ const MainFilter = (props) => {
           <option value="area">넓은 면적 순</option>
           <option value="floor">높은 층 순</option>
         </select>
-        <BsChevronDown className="arrow-down-icon" />
+        <BiChevronDown className="arrow-down-icon" />
       </div>
     </MainFilterDiv>
   );
 };
 
 const MainFilterDiv = styled.div`
-  margin: 1rem auto;
-  width: 66.25rem;
-  display: flex;
-  flex-direction: row;
+  margin: 0 auto;
+  width: inherit;
 
   .search-input {
     position: relative;
-    flex-grow: 10;
+    margin: 0 1rem;
+    padding: 1rem 0;
 
     .search-filter {
       position: absolute;
-      top: 0.2rem;
-      left: 1.4rem;
-      padding: 0.85rem;
+      top: 1.21rem;
+      left: 1rem;
+      padding: 0.85rem 0;
       font-size: 1rem;
       border: none;
       outline: 0;
@@ -83,8 +82,7 @@ const MainFilterDiv = styled.div`
 
     input {
       width: -webkit-fill-available;
-      margin-right: 1rem;
-      padding: 1rem 0 1rem 10rem;
+      padding: 1rem 0 1rem 5rem;
       font-size: 1rem;
       border: 1px solid rgb(181, 215, 247);
       border-radius: 1rem;
@@ -92,14 +90,14 @@ const MainFilterDiv = styled.div`
 
     .search-icon {
       position: absolute;
-      top: 1.1rem;
-      left: 48rem;
+      top: 2.1rem;
+      left: 90%;
     }
   }
 
   .select-priority-wrap {
     position: relative;
-    flex-grow: 2;
+    margin: 0 1rem;
 
     .select-priority {
       width: -webkit-fill-available;
@@ -116,7 +114,7 @@ const MainFilterDiv = styled.div`
     .arrow-down-icon {
       position: absolute;
       top: 1.1rem;
-      left: 12rem;
+      left: 90%;
     }
   }
 `;

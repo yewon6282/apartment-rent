@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { doLogout } from "../../modules/logging";
+import { KAKAO_AUTH_URL } from "../../api/Login";
 
 const HeaderRight = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const HeaderRight = () => {
     dispatch(doLogout());
     navigate("/");
   };
-  
+
   return (
     <HeaderRightDiv>
       {isLogined[0] ? (
@@ -21,12 +22,14 @@ const HeaderRight = () => {
           <Link to={"/mypage"} className="login-button">
             MyPage
           </Link>
-          <button className="logout-button" onClick={logoutHandler}>Logout</button>
+          <button className="logout-button" onClick={logoutHandler}>
+            Logout
+          </button>
         </div>
       ) : (
-        <Link to={"/login"} className="login-button">
-          Login
-        </Link>
+        // <Link to={KAKAO_AUTH_URL} className="login-button">
+          <button href={KAKAO_AUTH_URL}>Login</button>
+        // </Link>
       )}
     </HeaderRightDiv>
   );
@@ -34,10 +37,11 @@ const HeaderRight = () => {
 
 const HeaderRightDiv = styled.div`
   width: fit-content;
+  margin: auto 0;
 
   .logined-header {
     font-size: 1rem;
-    
+
     .logout-button {
       margin-left: 0.5rem;
       font-size: 1rem;
@@ -46,7 +50,6 @@ const HeaderRightDiv = styled.div`
 
   .login-button {
     display: inline-block;
-    padding: 1rem 0;
     font-size: 1rem;
   }
 `;

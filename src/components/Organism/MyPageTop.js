@@ -27,13 +27,13 @@ const MyPageTop = () => {
 const MyPageTopDiv = styled.div`
   width: inherit;
   height: 25%;
+  background-color: aliceblue;
 
   .mypage-profile {
-    width: 66.25rem;
+    width: 101rem;
     height: 100%;
     margin: 0 auto;
     padding: 1rem;
-    background-color: aliceblue;
     display: flex;
     flex-direction: row;
 
