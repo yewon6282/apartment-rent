@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import ApartmentJeonseMonthly from "../../api/ApartmentJeonseMonthly";
 import MainFilter from "../Molecule/MainFilter";
 import MainList from "../Molecule/MainList";
 
@@ -8,10 +7,8 @@ const MainCard = (props) => {
   return (
     <MainCardDiv>
       <div className="main-card">
-        <MainFilter />
-        <ApartmentJeonseMonthly />
-        {/* <MainList newDataList={props.newDataList}/> */}
-        {/* <MainList apartData={props.apartData} newDataList={props.newDataList}/> */}
+        <MainFilter setSelectPriority={props.setSelectPriority}/>
+        <MainList apartData={props.apartData} newDataList={props.newDataList}/>
       </div>
     </MainCardDiv>
   );

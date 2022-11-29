@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import Profile from "../../json/Profile.json";
 import { doLogin } from "../../modules/logging";
 import { useNavigate } from "react-router";
+import { regionNameFiltering } from "../../modules/regionFiltering";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const Login = () => {
     const ProfileHasId = Profile.Profiles.filter((el) => el.id === emailValue);
     if (ProfileHasId.length > 0) {
       if (ProfileHasId[0].password === passwordValue) {
+        dispatch(regionNameFiltering(ProfileHasId[0].regionName));
         dispatch(doLogin(emailValue, passwordValue));
         navigate("/");
       } else {
@@ -86,7 +88,8 @@ const LoginDiv = styled.div`
     form {
       width: 100%;
 
-      .email-input, .password-input {
+      .email-input,
+      .password-input {
         margin: 0.5rem 0;
         padding: 1rem;
         width: 90%;
@@ -100,7 +103,8 @@ const LoginDiv = styled.div`
         border-radius: 1rem;
       }
 
-      .email-input:focus, .password-input:focus {
+      .email-input:focus,
+      .password-input:focus {
         outline: none;
       }
 

@@ -7,8 +7,7 @@ const MainPage = (props) => {
   return (
     <MainPageDiv>
       <Header />
-      <Main />
-      {/* <Main apartData={props.apartData} /> */}
+      <Main apartData={props.apartData} />
     </MainPageDiv>
   );
 };

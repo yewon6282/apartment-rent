@@ -12,9 +12,7 @@ const Map = () => {
     };
 
     let map = new window.kakao.maps.Map(container, options);
-    //드래그 막기
     map.setDraggable(false);
-    //줌 막기
     map.setZoomable(false);
 
     var markerPosition = new kakao.maps.LatLng(37.5408325, 126.9459381);

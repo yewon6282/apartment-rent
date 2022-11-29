@@ -11,77 +11,74 @@ import { regionCodeFiltering } from "./modules/realEstateFiltering";
 import Profile from "./json/Profile.json";
 import { regionNameFiltering } from "./modules/regionFiltering";
 
-// const APARTURL = "/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptRent";
-// const CODEURL = "https://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList";
+const APARTURL = "/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptRent";
+const CODEURL = "https://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList";
 
 function App() {
-  // const dispatch = useDispatch();
-  // const isLogined = useSelector((state) => state.logging);
-  // // const realEstateData = useSelector((state) => state.realEstateFiltering);
-  // const regionData = useSelector((state) => state.regionFiltering);
-  // // const [apartData, setApartData] = useState(null);
-  // // const [codeData, setCodeData] = useState(null);
+  const dispatch = useDispatch();
+  const isLogined = useSelector((state) => state.logging);
+  const realEstateData = useSelector((state) => state.realEstateFiltering);
+  const regionData = useSelector((state) => state.regionFiltering);
+  const [apartData, setApartData] = useState(null);
+  const [codeData, setCodeData] = useState(null);
 
-  // useEffect(() => {
-  //   if (isLogined.length !== 0) {
-  //     const preferCode = Profile.Profiles.find((el) => el.id === isLogined[0]);
-  //     dispatch(regionNameFiltering(preferCode.regionName));
-  //   }
-  // }, [dispatch, isLogined]);
+  const regionCodeData = async () => {
+    try {
+      setCodeData(null);
 
-  // const regionCodeData = async () => {
-  //   try {
-  //     setCodeData(null);
+      const response = await axios.get(CODEURL, {
+        params: {
+          serviceKey: process.env.REACT_APP_CODE_API_KEY,
+          type: "json",
+          pageNo: 1,
+          numOfRows: 10,
+          locatadd_nm: regionData.regionName,
+        },
+      });
 
-  //     const response = await axios.get(CODEURL, {
-  //       params: {
-  //         serviceKey: process.env.REACT_APP_CODE_API_KEY,
-  //         type: "json",
-  //         pageNo: 1,
-  //         numOfRows: 10,
-  //         locatadd_nm: regionData.regionName,
-  //       },
-  //     });
+      setCodeData(response.data.StanReginCd[1].row[0].region_cd);
+    } catch (e) {}
+  };
 
-  //     setCodeData(response.data.StanReginCd[1].row[0].region_cd);
-  //   } catch (e) {}
-  // };
-  
-  // const apartmentData = async () => {
-  //   try {
-  //     setApartData(null);
+  useEffect(() => {
+    regionCodeData();
+  }, [regionData]);
 
-  //     const response = await axios.get(APARTURL, {
-  //       params: {
-  //         serviceKey: process.env.REACT_APP_APARTMENT_API_KEY,
-  //         LAWD_CD: realEstateData.regionCode,
-  //         DEAL_YMD: realEstateData.contractDate,
-  //       },
-  //     });
+  const apartmentData = async () => {
+    try {
+      setApartData(null);
 
-  //     setApartData(response.data.response.body.items.item);
-  //   } catch (e) {
-  //     // alert(e);
-  //   }
-  // };
-  // console.log(apartData);
-  
-  // useEffect(() => {
-  //   apartmentData();
-  //   // regionCodeData();
-  // }, [realEstateData, regionData]);
+      const response = await axios.get(APARTURL, {
+        params: {
+          serviceKey: process.env.REACT_APP_APARTMENT_API_KEY,
+          LAWD_CD: realEstateData.regionCode,
+          DEAL_YMD: realEstateData.contractDate,
+        },
+      });
 
-  // if (!apartData) return null;
+      setApartData(response.data.response.body.items.item);
+    } catch (e) {
+      // alert(e);
+    }
+  };
+
+  useEffect(() => {
+    apartmentData();
+  }, [realEstateData]);
+
+  useEffect(() => {
+    if (codeData > 0) {
+      dispatch(regionCodeFiltering((codeData / 100000).toString()));
+    }
+  }, [codeData, dispatch, isLogined]);
 
   return (
     <AppDiv>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MainPage />} />
-          {/* <Route path="/" element={<MainPage apartData={apartData} />} /> */}
+          <Route path="/" element={<MainPage apartData={apartData} />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/mypage" element={<MyPagePage />} />
-          {/* <Route path="/mypage" element={<MyPagePage apartData={apartData} />} /> */}
         </Routes>
       </BrowserRouter>
     </AppDiv>

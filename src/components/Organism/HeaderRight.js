@@ -15,6 +15,10 @@ const HeaderRight = () => {
     navigate("/");
   };
 
+  const goToKakaoLogin = () => {
+    window.location.href = KAKAO_AUTH_URL;
+  }
+
   return (
     <HeaderRightDiv>
       {isLogined[0] ? (
@@ -27,9 +31,7 @@ const HeaderRight = () => {
           </button>
         </div>
       ) : (
-        // <Link to={KAKAO_AUTH_URL} className="login-button">
-          <button href={KAKAO_AUTH_URL}>Login</button>
-        // </Link>
+        <button onClick={goToKakaoLogin}>Login</button>
       )}
     </HeaderRightDiv>
   );

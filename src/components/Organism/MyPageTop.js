@@ -16,7 +16,7 @@ const MyPageTop = () => {
             id <span>{memberProfile.id}</span>
           </p>
           <p>
-            prefer region <span>{memberProfile.preferRegion}</span>
+            prefer region <span>{memberProfile.regionName}</span>
           </p>
         </div>
       </div>
